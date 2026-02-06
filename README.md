@@ -173,11 +173,4 @@ The script reports, for each target table (`Te0..Te3`, `sbox`):
 
 ---
 
-## Notes
-
-* This repo separates **attack (STM32/S-box)** and **cache mapping analysis (RP2350/T-table)**.
-* Trace files in `Traces/` are provided for convenience; `attack.py` uses the root CSV by default.
-* If your ELF is stripped and symbols `Te0..Te3` are missing, `check.py` may not find them.
-
----
 
