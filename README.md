@@ -7,7 +7,7 @@ This repository contains two AES implementations on different MCUs and scripts/d
 - **`attack.py` (repo root)**: end-to-end timing attack script **targeting the STM32F407 S-box implementation**
 - **`RP2350/dump.txt`**: a “mapping dump” (symbols + disassembly) used to map **table objects / instructions** into **RP2350 XIP cache sets** for conflict analysis
 
-> Reference paper (PDF included in this repo): *Const Is Not Constant: Flash Timing Side-Channel Attacks on MCUs*
+> Reference paper: *Const Is Not Constant: Flash Timing Side-Channel Attacks on MCUs*
 
 
 ---
@@ -23,7 +23,7 @@ This repository contains two AES implementations on different MCUs and scripts/d
 │   ├── main.c                        # RP2350: AES T-table implementation (Te0..Te3)
 │   ├── check.py                      # Parses dump.txt and reports XIP cache set conflicts
 │   ├── dump.txt                      # Generated: symbols + disassembly mapping (see below)
-│   └── (your_firmware.elf)           # You will place the ELF here (used to generate dump.txt)
+│   └── aes.elf                       # The ELF (used to generate dump.txt)
 ├── STM32F407/
 │   └── main.c                        # STM32F407: AES S-box implementation
 └── Traces/
@@ -123,11 +123,11 @@ This generates:
 You said you will add the corresponding **ELF** into `RP2350/` (e.g., `RP2350/firmware.elf`).
 After placing the ELF, generate `dump.txt` with one of the following options.
 
-### Option A (Recommended): GNU `arm-none-eabi-objdump`
+### GNU `arm-none-eabi-objdump`
 
 ```bash
 cd RP2350
-arm-none-eabi-objdump -t -d -w firmware.elf > dump.txt
+arm-none-eabi-objdump -t -d -w aes.elf > dump.txt
 ```
 
 Notes:
@@ -136,12 +136,7 @@ Notes:
 * `-d` prints disassembly (function labels + instruction addresses)
 * `-w` disables line wrapping (helps parsers)
 
-### Option B: LLVM `llvm-objdump`
 
-```bash
-cd RP2350
-llvm-objdump --syms --disassemble --no-show-raw-insn --print-imm-hex firmware.elf > dump.txt
-```
 
 If your `check.py` relies on raw instruction bytes, remove `--no-show-raw-insn`.
 
@@ -186,7 +181,3 @@ The script reports, for each target table (`Te0..Te3`, `sbox`):
 
 ---
 
-
-
-我也可以直接把对应段落再增强到同一份模板里。
-```
