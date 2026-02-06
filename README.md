@@ -1,4 +1,4 @@
-# Flash/Cache Timing Attack Demo (STM32F407 S-box vs RP2350 T-table)
+# Flash Timing Attack Demo
 
 This repository contains two AES implementations on different MCUs and scripts/data for timing side-channel experiments:
 
